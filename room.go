@@ -15,8 +15,8 @@ type room struct {
 	join chan *client
 	// leave is a channel for leaving
 	leave chan *client
-	// clinets holds all current clients in this room
-	clinets map[*client]bool
+	// clients holds all current clients in this room
+	clients map[*client]bool
 }
 
 func (r *room) run() {
@@ -24,14 +24,14 @@ func (r *room) run() {
 		select {
 		case client := <-r.join:
 			// joining
-			r.clinets[client] = true
+			r.clients[client] = true
 		case client := <-r.leave:
 			// leaving
-			delete(r.clinets, client)
+			delete(r.clients, client)
 			close(client.send)
 		case msg := <-r.forward:
 			// forward message
-			for client := range r.clinets {
+			for client := range r.clients {
 				client.send <- msg
 			}
 
@@ -61,4 +61,13 @@ func (r *room) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	defer func() { r.leave <- client }()
 	go client.write()
 	client.read()
+}
+
+func newRoom() *room {
+	return &room{
+		forward: make(chan []byte),
+		join:    make(chan *client),
+		leave:   make(chan *client),
+		clients: make(map[*client]bool),
+	}
 }
