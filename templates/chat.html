@@ -1,8 +1,48 @@
 <html>
     <head>
         <title>Chat</title>
+        <style>
+        input{display: block;}
+        ul{list-style: none;}
+        </style>
     </head>
     <body>
-        Les's chat(from template)
+        <ul id="messages"></ul>
+        <form id="chatbox">
+            <textarea></textarea>
+            <input type="submit" value="Send"/>
+        </form>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script>
+        $(function(){
+            var socket = null;
+            debugger
+            var msgBox = $("#chatbox textarea");
+            var messages = $("#messages")
+            $("#chatbox").submit(function(){
+                if(!msgBox.val()) return false;
+                debugger
+                if (!socket) {
+                    alert("Error:There is no socket connection.");
+                    return false;
+                }
+                socket.send(msgBox.val());
+                msgBox.val("");
+                return false;
+            });
+            if (!window["WebSocket"]){
+                alert("Erro:Your browser does not support web sockets.")
+            }else{
+                socket = new WebSocket("ws://localhost:8888/room");
+                socket.onclose=function(){
+                    alert("connection has been closed");
+                }
+                debugger
+                socket.onmessage=function(e){
+                    messages.append($("<li>").text(e.data));
+                }
+            }
+        });
+        </script>
     </body>
 </html>
