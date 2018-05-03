@@ -37,7 +37,6 @@
                 socket.onclose=function(){
                     alert("connection has been closed");
                 }
-                debugger
                 socket.onmessage=function(e){
                     messages.append($("<li>").text(e.data));
                 }
