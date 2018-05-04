@@ -3,3 +3,4 @@ vendor/*
 goblueprint.exe
 debug
 assets/test/*
+*_test.go

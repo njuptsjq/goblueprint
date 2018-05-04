@@ -1,9 +1,9 @@
 package main
 
 import (
+	"goblueprint/trace"
 	"log"
 	"net/http"
-	"trace"
 
 	"github.com/gorilla/websocket"
 )
