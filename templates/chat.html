@@ -39,7 +39,14 @@
                     alert("connection has been closed");
                 }
                 socket.onmessage=function(e){
-                    messages.append($("<li>").text(e.data));
+                    // messages.append($("<li>").text(e.data));
+                    var msg = JSON.parse(e.data);
+                    messages.append(
+                        $("<li>").append(
+                            $("<strong>").text(msg.Name+":"),
+                            $("<span>").text(msg.Message)
+                        )
+                    )
                 }
             }
         });
