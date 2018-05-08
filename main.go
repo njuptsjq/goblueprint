@@ -47,7 +47,7 @@ func main() {
 		github.New("42e9d748943d18617068", "cf236e510d711d697195f605a2c498b62a8e3f49", "http://localhost:8080/auth/callback/github"),
 		google.New("key", "secret", "http://localhost:8080/auth/callback/google"),
 	)
-	r := newRoom()
+	r := newRoom(UseGrAvatar)
 	//r.tracer = trace.New(os.Stdout)
 	//	http.Handle("/", &templateHandler{filename: "chat.html"})
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets/"))))
