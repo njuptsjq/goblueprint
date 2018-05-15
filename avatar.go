@@ -79,4 +79,5 @@ func (FileSystemAvatar) GetAvatarURL(c *client) (string, error) {
 		}
 	}
 	return "", ErrNoAvatarURL
+
 }
